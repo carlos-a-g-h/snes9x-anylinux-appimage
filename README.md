@@ -37,5 +37,6 @@ More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/
 <details>
   <summary><b><i>raison d'être</i></b></summary>
     <img src="https://github.com/user-attachments/assets/d40067a6-37d2-4784-927c-2c7f7cc6104b" alt="Inspiration Image">
+    <img src="https://github.com/user-attachments/assets/8a3fd256-0fd4-4942-b9be-87abf7f6658d" alt="My reasons" />
   </a>
 </details>
