@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# An "installation" script with recommended config and DESKTOP file
+
+# NOTE: THIS IS AN INTERNAL SCRIPT AND IT CAN ONLY RUN INSIDE THE APPIMAGE AS A COMMAND LINE ARGUMENT
+
+CONFIG_FILE="snes9x.conf"
+CONFIG_DIR="$HOME""/.config/snes9x"
+
+DESKTOP="snes9x.desktop"
+PATH_ICON="/usr/share/icons/snes9x.svg"
+
+declare -a TARGETS=("/usr/bin/snes9x" "/usr/bin/snes9x-gtk")
+
+for BIN_LINK in "${TARGETS[@]}"; do
+	if [ -e "$BIN_LINK" ]
+	then
+		echo "Already exists: $BIN_LINK"
+		continue
+	fi
+	ln -vs "$URUNTIME" "$BIN_LINK"
+done
+
+#BIN_LINK="/usr/bin/snes9x"
+#if [ -e "$BIN_LINK" ]
+#then
+#	echo "Already exists: $BIN_LINK"
+#	exit 0
+#fi
+#BIN_LINK="/usr/bin/snes9x-gtk"
+#if [ -e "$BIN_LINK" ]
+#then
+#	echo "Already exists: $BIN_LINK"
+#	exit 0
+#fi
+
+echo "Setting up..."
+
+# Icon
+cp -va "$APPDIR"/.DirIcon "$ICON_PATH"
+
+# dot DESKTOP
+cp -va "$APPDIR"/"$DESKTOP" /usr/share/applications/
+chmod +x /usr/share/applications/"$DESKTOP"
+
+# Config
+mkdir -p "$CONFIG_DIR"
+cp -va "$APPDIR"/"$CONFIG_FILE" "$CONFIG_DIR"/"$CONFIG_FILE"
+
+echo "
+
+All done!
+
+You can now type 'visualboyadvance-m' from the commandline to launch the GTK port or 'vbam' to run the SDL port
+
+ENJOY!
+"
