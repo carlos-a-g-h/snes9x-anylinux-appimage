@@ -3,14 +3,14 @@
 set -eu
 
 ARCH=$(uname -m)
-VERSION=$(pacman -Q snes9x-gtk | awk '{print $2; exit}')
+VERSION="v$(pacman -Q snes9x-gtk | awk '{print $2; exit}')"
 
 # Unique Build ID, it can be a date in YYYYMMDD, a git commit, etc...
 UBID="$1"
 UBID_SHORT="${UBID:0:8}"
 
 NAME="Snes9x"
-APPIMAGE_STEM="$NAME"_v"$VERSION"_"$UBID_SHORT"_anylinux_"$ARCH"
+APPIMAGE_STEM="$NAME"_"$VERSION"_"$UBID_SHORT"_anylinux_"$ARCH"
 
 export ARCH VERSION
 export OUTPATH=./dist
