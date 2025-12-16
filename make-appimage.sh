@@ -10,7 +10,7 @@ UBID="$1"
 UBID_SHORT="${UBID:0:8}"
 
 NAME="Snes9x"
-APPIMAGE_STEM="$NAME"_"$VERSION"_"$UBID_SHORT"_anylinux_"$ARCH"
+APPIMAGE_STEM="$NAME"_v"$VERSION"_"$UBID_SHORT"_anylinux_"$ARCH"
 
 export ARCH VERSION
 export OUTPATH=./dist
