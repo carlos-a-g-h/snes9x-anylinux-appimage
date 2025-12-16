@@ -18,7 +18,7 @@ export OUTPATH=./dist
 #export UPINFO="gh-releases-zsync|${GITHUB_REPOSITORY%/*}|${GITHUB_REPOSITORY#*/}|latest|*$ARCH.AppImage.zsync"
 export ICON="/usr/share/icons/hicolor/scalable/apps/snes9x.svg"
 export OUTNAME="$APPIMAGE_STEM".AppImage
-export DESKTOP="snes9x.desktop"
+export DESKTOP="snes9x-gtk.desktop"
 
 export DEPLOY_OPENGL=1
 export DEPLOY_GEGL=0
