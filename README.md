@@ -1,21 +1,22 @@
-# VisualBoyAdvance-M Anylinux AppImages 🐧
+# Snes9x Anylinux AppImages 🐧
 
 ### Build status
 
 [![GitHub Downloads](https://img.shields.io/github/downloads/carlos-a-g-h/snes9x-anylinux-appimage/total?logo=github&label=GitHub%20Downloads)](https://github.com/carlos-a-g-h/snes9x-anylinux-appimage/releases/latest)
+
 [![CI Build Status](https://github.com//carlos-a-g-h/snes9x-anylinux-appimage/actions/workflows/appimage.yml/badge.svg)](https://github.com/carlos-a-g-h/snes9x-anylinux-appimage/releases/latest)
 
 * [Latest Stable Release](https://github.com/carlos-a-g-h/snes9x-anylinux-appimage/releases/latest)
 
 ### Internal scripts and programs
 
-These AppImages have internal scripts and programs, that can be launched by calling them as commandline arguments
+This AppImage has internal scripts and programs, that can be launched by calling them as commandline arguments
 
 ```
-./Snes9x.AppImage [program]
+./Snes9x.AppImage [Program]
 ```
 
-This following table has the most important scripts and programs
+This table has the most important scripts and programs
 
 | Program or script | Description |
 |-|-|
@@ -25,11 +26,11 @@ This following table has the most important scripts and programs
 
 ## What is AnyLinux ?
 
-These AppImages are made using [sharun](https://github.com/VHSgunzo/sharun), which makes it extremely easy to turn any binary into a portable package without using containers or similar tricks.
+Tiis AppImages is made using [sharun](https://github.com/VHSgunzo/sharun), which makes it extremely easy to turn any binary into a portable package without using containers or similar tricks.
 
 **These AppImages bundle everything and should work on any linux distro, even on musl based ones.**
 
-These AppImages can work **without FUSE** at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
+This AppImage can work **without FUSE** at all thanks to the [uruntime](https://github.com/VHSgunzo/uruntime)
 
 More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/)
 
