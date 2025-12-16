@@ -7,7 +7,7 @@
 CONFIG_FILE="snes9x.conf"
 CONFIG_DIR="$HOME""/.config/snes9x"
 
-DESKTOP="snes9x.desktop"
+DESKTOP="snes9x-gtk.desktop"
 PATH_ICON="/usr/share/icons/snes9x.svg"
 
 declare -a TARGETS=("/usr/bin/snes9x" "/usr/bin/snes9x-gtk")
@@ -51,7 +51,7 @@ echo "
 
 All done!
 
-You can now type 'visualboyadvance-m' from the commandline to launch the GTK port or 'vbam' to run the SDL port
+You can now type 'snes9x-gtk' from the commandline to launch the GTK port or 'snes9x' to run the CLI variant
 
 ENJOY!
 "
