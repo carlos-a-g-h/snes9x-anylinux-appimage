@@ -22,8 +22,7 @@ echo "Installing package dependencies..."
 echo "----------------------------------"
 pacman -Sy --noconfirm zsync zstd patchelf base-devel xorg-server-xvfb \
 sdl2 \
-portaudio pulseaudio pipewire pipewire-alsa jack alsa-oss \
-alsa-oss libasound2
+portaudio pulseaudio pipewire pipewire-alsa jack2 alsa-oss
 
 echo "Installing debloated packages..."
 echo "--------------------------------"
