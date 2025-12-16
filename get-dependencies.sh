@@ -26,7 +26,7 @@ portaudio pulseaudio pipewire pipewire-alsa jack2 alsa-oss
 
 echo "Installing debloated packages..."
 echo "--------------------------------"
-bash get-debloated-pkgs --add-common --prefer-nano mesa-mini gtk3-mini gdk-pixbuf2-mini librsvg-mini libxml2-mini
+bash get-debloated-pkgs mesa-mini gtk3-mini gdk-pixbuf2-mini librsvg-mini libxml2-mini
 
 echo "Installing the main packages..."
 echo "-------------------------------"
