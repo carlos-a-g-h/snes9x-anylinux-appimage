@@ -19,6 +19,8 @@ echo "
 
 Details have been extracted to:
 
-$STEM
+$PATH_PARENT
+
+	$STEM.details
 
 All Done!"
