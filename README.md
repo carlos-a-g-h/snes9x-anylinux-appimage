@@ -20,7 +20,7 @@ This table has the most important scripts and programs
 
 | Program or script | Description |
 |-|-|
-| snes9x |Run SDL port instead of the wxGTK port|
+| snes9x |Run CLI variant instead of the GTK variant |
 | setup | An "installation" script for the appimage. It provides a nice config, a DESKTOP file in /usr/share/applications and an icon |
 | details | Extracts the "details" directory from the AppImage |
 
