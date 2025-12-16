@@ -8,7 +8,17 @@
 
 * [Latest Stable Release](https://github.com/carlos-a-g-h/snes9x-anylinux-appimage/releases/latest)
 
-### Internal scripts and programs
+## About this AppImage
+
+<details>
+  <summary><b><i>I HAVE MY REASONS</i></b></summary>
+    <img src="https://github.com/user-attachments/assets/8a3fd256-0fd4-4942-b9be-87abf7f6658d" alt="this-is-why" />
+  </a>
+</details>
+
+The Snes9x official github repository already has appimages on their upstream, but these appimages do not run on older systems, and that is the reason why I made this repository
+
+#### Internal scripts and programs
 
 This AppImage has internal scripts and programs, that can be launched by calling them as commandline arguments
 
@@ -23,6 +33,27 @@ This table has the most important scripts and programs
 | snes9x |Run CLI variant instead of the GTK variant |
 | setup | An "installation" script for the appimage. It provides a nice config, a DESKTOP file in /usr/share/applications and an icon |
 | details | Extracts the "details" directory from the AppImage |
+
+#### About the setup script
+
+By default, the setup script copies the icon, a .desktop file and a config to your system, but you might not want ALL of this, and so for that reason, this internal script has several flags you can add as commandline arguments to customie the "installation" of the appimage in your system
+
+```
+./Snes9x.AppImage setup [FLAGS]
+```
+
+| Flag | Description |
+|-|-|
+| --no-config | Will not copy the recommended config to your system
+| --no-links | Will not create symlinks that go from /usr/bin/ to the AppImage
+| --no-desktop | Will not create the application desktop file and its icon
+| --force | Overwrites in case that there are files or paths that already exist
+
+NOTE: 
+
+- If --no-desktop is used alongside --no-links, the desktop file will point directly to the AppImage
+
+- The --force flag is only for the symlinks at /usr/bin/. Paired alongside --no-config can be useful for updating the AppImage
 
 ## What is AnyLinux ?
 
@@ -39,13 +70,3 @@ More at: [AnyLinux-AppImages](https://pkgforge-dev.github.io/Anylinux-AppImages/
     <img src="https://github.com/user-attachments/assets/d40067a6-37d2-4784-927c-2c7f7cc6104b" alt="Inspiration Image">
   </a>
 </details>
-
-## About this AppImage
-
-<details>
-  <summary><b><i>I HAVE MY REASONS</i></b></summary>
-    <img src="https://github.com/user-attachments/assets/8a3fd256-0fd4-4942-b9be-87abf7f6658d" alt="this-is-why" />
-  </a>
-</details>
-
-The Snes9x official github repository already has appimages on their upstream, but these appimages do not run on older systems, and that is the reason why I made this repository

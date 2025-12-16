@@ -1,47 +1,144 @@
 #!/bin/bash
 
 # An "installation" script with recommended config and DESKTOP file
+#
+# Usage:
+#
+# $ setup [FLAGS]
+#
+# Available flags
+#
+# By default this script will do everything but in some cases you might not
+# want it to do that
+#
+# --no-config Will not copy the recommended config
+# --no-links Will not create symlinks that go from /usr/bin/ to the AppImage
+# --no-desktop Will not create the dot desktop file and its icon
+# --force Overwrites in case that there are files or paths that already exist
+#
+# NOTE: THIS IS AN INTERNAL SCRIPT AND IT CAN ONLY RUN INSIDE THE APPIMAGE AS
+# A COMMAND LINE ARGUMENT
 
-# NOTE: THIS IS AN INTERNAL SCRIPT AND IT CAN ONLY RUN INSIDE THE APPIMAGE AS A COMMAND LINE ARGUMENT
+set -eu
+
+MAIN_BIN="/usr/bin/snes9x-gtk"
 
 CONFIG_FILE="snes9x.conf"
 CONFIG_DIR="$HOME""/.config/snes9x"
 
 DESKTOP="snes9x-gtk.desktop"
+DESKTOP_EXEC=$(basename "$MAIN_BIN")
 PATH_ICON="/usr/share/icons/snes9x.svg"
+declare -a LBINARIES=(
+	"/usr/bin/snes9x"
+	"$MAIN_BIN"
+)
 
-declare -a TARGETS=("/usr/bin/snes9x" "/usr/bin/snes9x-gtk")
+COPY_CONFIG=1
+MAKE_LINKS=1
+MAKE_DESKTOP=1
+OVERWRITE=0
+declare -a ARGUMENTS=(
+	"--no-config"
+	"--no-links"
+	"--no-desktop"
+	"--force"
+)
 
-for BIN_LINK in "${TARGETS[@]}"; do
-	if [ -e "$BIN_LINK" ]
+for FLAG in $@
+do
+	DET=0
+	if [ "$FLAG" == "--no-config" ]
 	then
-		echo "Already exists: $BIN_LINK"
-		continue
+		DET=1
+		COPY_CONFIG=0
 	fi
-	ln -vs "$URUNTIME" "$BIN_LINK"
+	if [ "$FLAG" == "--no-links" ]
+	then
+		DET=1
+		MAKE_LINKS=0
+	fi
+	if [ "$FLAG" == "--no-desktop" ]
+	then
+		DET=1
+		MAKE_DESKTOP=0
+	fi
+	if [ "$FLAG" == "--force" ]
+	then
+		DET=1
+		OVERWRITE=1
+	fi
+
+	if [ $DET -eq 1 ]
+	then
+		echo "Detected flag: $FLAG"
+	fi
 done
 
-#BIN_LINK="/usr/bin/snes9x"
-#if [ -e "$BIN_LINK" ]
-#then
-#	echo "Already exists: $BIN_LINK"
-#	exit 0
-#fi
-#BIN_LINK="/usr/bin/snes9x-gtk"
-#if [ -e "$BIN_LINK" ]
-#then
-#	echo "Already exists: $BIN_LINK"
-#	exit 0
-#fi
+"AppImage path: $(realpath -e "$URUNTIME")"
+"Mounted path: $(realpath -e "$APPDIR")"
+
+if [ -z "$APPDIR" ] || [ -z "$URUNTIME" ]
+then
+	exit 1
+fi
 
 echo "Setting up..."
 
-# Icon
-cp -va "$APPDIR"/.DirIcon "$ICON_PATH"
+if [ $MAKE_LINKS -eq 1 ]
+then
 
-# dot DESKTOP
-cp -va "$APPDIR"/"$DESKTOP" /usr/share/applications/
-chmod +x /usr/share/applications/"$DESKTOP"
+	# Symlinks
+
+	for BIN_LINK in "${LBINARIES[@]}"
+	do
+		if [ -e "$BIN_LINK" ]
+		then
+			if [ -e $OVERWRITE -eq 1 ]
+			then
+				echo "the path already exists: $BIN_LINK"
+				continue
+			fi
+			rm -vrf "$BIN_LINK"
+		fi
+		ln -vs "$URUNTIME" "$BIN_LINK"
+	done
+fi
+
+if [ $MAKE_DESKTOP -eq 1 ]
+
+	# Icon
+	mkdir -vp "$(dirname '$ICON_PATH')"
+	cp -v "$APPDIR"/.DirIcon "$ICON_PATH"
+
+	# dot DESKTOP
+	cp -v "$APPDIR"/"$DESKTOP" /usr/share/applications/
+	chmod +x /usr/share/applications/"$DESKTOP"
+
+	if [ $MAKE_LINKS -eq 1 ]
+	then
+
+		if ! [ -f "$MAIN_BIN" ]
+		then
+			MAKE_LINKS=0
+		fi
+
+		if [ -f "$MAIN_BIN" ]
+		then
+			DESTINATION=$(readlink "$MAIN_BIN")
+			if [ "$DESTINATION" == "$URUNTIME" ]
+			then
+				MAKE_LINKS=0
+			fi
+		fi
+
+	fi
+
+	if [ $MAKE_LINKS -eq 0 ]
+	then
+		sed -i 's:Exec=snes9x:Exec=\"'"$URUNTIME"'\":' /usr/share/applications/"$DESKTOP"
+	fi
+fi
 
 # Config
 mkdir -p "$CONFIG_DIR"
