@@ -10,11 +10,11 @@ echo "----------------------"
 URL_DPKGS="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/get-debloated-pkgs.sh"
 URL_SHARUN="https://raw.githubusercontent.com/pkgforge-dev/Anylinux-AppImages/refs/heads/main/useful-tools/quick-sharun.sh"
 
-FILENAME=$(basename "${$URL_DPKGS:7}")
+FILENAME=$(basename "${URL_DPKGS:7}")
 wget "$URL_DPKGS" -O "$FILENAME"
 chmod +x "$FILENAME"
 
-FILENAME=$(basename "${$URL_SHARUN:7}")
+FILENAME=$(basename "${URL_SHARUN:7}")
 wget "$URL_SHARUN" -O "$FILENAME"
 chmod +x "$FILENAME"
 
