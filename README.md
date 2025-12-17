@@ -1,6 +1,6 @@
 # Snes9x Anylinux AppImages 🐧
 
-### Build status
+## Build status
 
 [![GitHub Downloads](https://img.shields.io/github/downloads/carlos-a-g-h/snes9x-anylinux-appimage/total?logo=github&label=GitHub%20Downloads)](https://github.com/carlos-a-g-h/snes9x-anylinux-appimage/releases/latest)
 
@@ -18,9 +18,9 @@
 
 The Snes9x official github repository already has appimages on their upstream, but these appimages do not run on older systems, and that is the reason why I made this repository
 
-#### Internal scripts and programs
+### Internal scripts and programs
 
-This AppImage has internal scripts and programs, that can be launched by calling them as commandline arguments
+This AppImage has internal scripts and programs that can be launched by calling them as commandline arguments
 
 ```
 ./Snes9x.AppImage [Program]
@@ -34,7 +34,9 @@ This table has the most important scripts and programs
 | setup | An "installation" script for the appimage. It provides a nice config, a DESKTOP file in /usr/share/applications and an icon |
 | details | Extracts the "details" directory from the AppImage |
 
-#### About the setup script
+### The setup script
+
+This script can help you integrate the appimage to your system
 
 ```
 ./Snes9x.AppImage setup [FLAGS]
