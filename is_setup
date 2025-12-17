@@ -53,16 +53,19 @@ do
 		DET=1
 		COPY_CONFIG=0
 	fi
+
 	if [ "$FLAG" == "--no-links" ]
 	then
 		DET=1
 		MAKE_LINKS=0
 	fi
+
 	if [ "$FLAG" == "--no-desktop" ]
 	then
 		DET=1
 		MAKE_DESKTOP=0
 	fi
+
 	if [ "$FLAG" == "--force" ]
 	then
 		DET=1
@@ -94,7 +97,7 @@ then
 	do
 		if [ -e "$BIN_LINK" ]
 		then
-			if [ -e $OVERWRITE -eq 1 ]
+			if [ $OVERWRITE -eq 1 ]
 			then
 				echo "the path already exists: $BIN_LINK"
 				continue
