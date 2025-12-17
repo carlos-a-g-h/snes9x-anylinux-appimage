@@ -36,24 +36,19 @@ This table has the most important scripts and programs
 
 #### About the setup script
 
-By default, the setup script copies the icon, a .desktop file and a config to your system, but you might not want ALL of this, and so for that reason, this internal script has several flags you can add as commandline arguments to customie the "installation" of the appimage in your system
-
 ```
 ./Snes9x.AppImage setup [FLAGS]
 ```
 
 | Flag | Description |
 |-|-|
-| --no-config | Will not copy the recommended config to your system
-| --no-links | Will not create symlinks that go from /usr/bin/ to the AppImage
-| --no-desktop | Will not create the application desktop file and its icon
-| --force | Overwrites in case that there are files or paths that already exist
+| --install | Performs the installation, integrating the appimage to your system |
+| --no-config | Will not copy the recommended config to your system |
+| --no-links | Will not create symlinks that go from /usr/bin/ to the AppImage |
+| --no-desktop | Will not create the application desktop file and its icon |
+| --force | Overwrites in case that there are files or paths that already exist |
 
-NOTE: 
-
-- If --no-desktop is used alongside --no-links, the desktop file will point directly to the AppImage
-
-- The --force flag is only for the symlinks at /usr/bin/. Paired alongside --no-config can be useful for updating the AppImage
+Use the command without any arguments for more details
 
 ## What is AnyLinux ?
 
