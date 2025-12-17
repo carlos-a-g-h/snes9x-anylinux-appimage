@@ -75,8 +75,8 @@ do
 	fi
 done
 
-"AppImage path: $(realpath -e "$URUNTIME")"
-"Mounted path: $(realpath -e "$APPDIR")"
+echo "AppImage path: $(realpath -e "$URUNTIME")"
+echo "Mounted path: $(realpath -e "$APPDIR")"
 
 if [ -z "$APPDIR" ] || [ -z "$URUNTIME" ]
 then
