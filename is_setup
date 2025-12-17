@@ -19,8 +19,6 @@ declare -a LBINARIES=(
 )
 
 HELP_USAGE="
-An 'installation' script that integrates the appimage with your system
-
 Usage:
 
 $ setup [FLAGS]
@@ -28,30 +26,22 @@ $ setup [FLAGS]
 Available flags/arguments
 
 --install
-
 	Integrates the AppImage with your system
-
 	By default it will try to do the following tasks:
 	- Create symlinks that lead to the appimage
 	- Copy a configuration to your home directory
 	- Create a dot DESKTOP application file that will run the appimage
 
-	You can use the other flags to customize the process to your linking
-
 --no-links
-
 	Will not create symlinks that go from /usr/bin/ to the AppImage
 
 --no-config
-
 	Will not copy the recommended config during the installation
 
 --no-desktop
-
 	Will not create/update the application desktop file and its icon
 
 --force
-
 	Overwrites in case that there are files or paths that already exist
 	This flag only works with the symlinking process
 
@@ -82,8 +72,7 @@ declare -a ARGUMENTS=(
 )
 
 echo "
-	SETUP SCRIPT
-"
+	SETUP SCRIPT"
 
 for FLAG in $@
 do
