@@ -25,7 +25,6 @@ Available flags/arguments
 
 --force
 	Overwrites in case that there are files or paths that already exist
-	This flag only works with the symlinking process
 
 Some examples:
 
