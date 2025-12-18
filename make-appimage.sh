@@ -35,19 +35,24 @@ quick-sharun /usr/bin/snes9x /usr/bin/snes9x-gtk /usr/lib/libalsatoss.so
 # Additional changes can be done in between here
 
 # Copy the config
-cp -v snes9x.conf AppDir/
+mkdir -p AppDir/_config
+cp -va _config/* AppDir/_config/
 
 # Copy details
-mkdir -v AppDir/details
-echo "$UBID" > AppDir/details/commit.txt
-echo "$(date)" > AppDir/details/date.txt
-pacman -Q > AppDir/details/packages.txt
+mkdir -v AppDir/_details
+echo "$UBID" > AppDir/_details/commit.txt
+echo "$(date)" > AppDir/_details/date.txt
+pacman -Q > AppDir/_details/packages.txt
 
 # Copy Internal scripts
 mkdir -vp AppDir/bin
-chmod +x is_*
-cp -v is_setup AppDir/bin/setup
+
 cp -v is_details AppDir/bin/details
+cp -v is_setup.1.sh AppDir/bin/setup
+cat is_setup.2.sh >> AppDir/bin/setup
+
+chmod +x AppDir/bin/details
+chmod +x AppDir/bin/setup
 
 # Turn AppDir into AppImage
 ./quick-sharun.sh --make-appimage
