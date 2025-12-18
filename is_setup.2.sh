@@ -1,6 +1,6 @@
 ################################################################################
 
-HELP_USAGE="
+MSG_HELP="
 Usage:
 
 $ setup [FLAGS]
@@ -39,6 +39,10 @@ $ setup --install --no-links
 Creates the DESKTOP file only
 When the script is unable to create the symlinks, the DESKTOP file will be made to run the appimage directly instead of running it through the symlinks
 "
+
+MSG_ERR="[ ERR ]"
+MSG_NOT="[ ! ]"
+MSG_USE_FORCE="Run again with --force"
 
 INSTALL=0
 COPY_CONFIG=1
@@ -105,98 +109,144 @@ Mounted path: $(realpath -e "$APPDIR")
 
 if ! [ $INSTALL -eq 1 ]
 then
-	echo "$HELP_USAGE"
+	echo "$MSG_HELP"
 	exit 0
 fi
 
+# Create symlinks
+
 if [ $MAKE_LINKS -eq 1 ]
 then
-
-	# Symlinks
 
 	WARNED=0
 
 	for BIN_LINK in "${LBINARIES[@]}"
 	do
 
-		if [ $OVERWRITE -eq 1 ]
+		if [ -f "$BIN_LINK" ] || [ -d "$BIN_LINK" ]
 		then
-			ln -vsf "$URUNTIME" "$BIN_LINK"
-			continue
+			ls -l "$BIN_LINK"
+			if [ $OVERWRITE -eq 0 ]
+			then
+				MAKE_LINKS=0
+				break
+			fi
 		fi
-
-		ln -vs "$URUNTIME" "$BIN_LINK"
+		ln -vsf "$URUNTIME" "$BIN_LINK"
 
 	done
 
-	if [ $WARNED -eq 1 ]
-	then
-		MAKE_LINKS=0
-	fi
-
 fi
+
+# Copy desktop file and icon
 
 if [ $MAKE_DESKTOP -eq 1 ]
 then
 
 	# Icon
-	mkdir -vp "$(dirname "$PATH_ICON")"
 
-	if [ $OVERWRITE -eq 1 ]
+	OK=0
+	mkdir -vp "$(dirname "$PATH_ICON")"
+	if [ -f "$PATH_ICON" ] || [ -d "$PATH_ICON" ]
+	then
+		ls -l "$PATH_ICON"
+		if [ $OVERWRITE -eq 1 ]
+		then
+			OK=1
+		fi
+	else
+		OK=1
+	fi
+	if [ $OK -eq 1 ]
 	then
 		cp -va "$APPDIR"/.DirIcon "$PATH_ICON"
-	else
-		cp -v "$APPDIR"/.DirIcon "$PATH_ICON"
 	fi
 
-	# dot DESKTOP
+	# Desktop file
 
+	OK=0
 	DESKTOP_OK="/usr/share/applications/""$DESKTOP"
-
-
-	if [ $OVERWRITE -eq 1 ]
+	mkdir -vp "$(dirname "$DESKTOP_OK")"
+	if [ -f "$DESKTOP_OK" ] || [ -d "$DESKTOP_OK" ]
 	then
-		cp -va "$APPDIR"/"$DESKTOP" /usr/share/applications/
+		ls -l "$DESKTOP_OK"
+		if [ $OVERWRITE -eq 1 ]
+		then
+			OK=1
+		fi
 	else
-		cp -v "$APPDIR"/"$DESKTOP" /usr/share/applications/
+		OK=1
+	fi
+	if [ $OK -eq 1 ]
+	then
+		cp -va "$APPDIR"/"$DESKTOP" "$DESKTOP_OK"
+		chmod +x "$DESKTOP_OK"
 	fi
 
-	chmod +x "$DESKTOP_OK"
+	# Desktop file's Exec
 
-	if [ $MAKE_LINKS -eq 1 ]
+	if [ $OK -eq 1 ]
 	then
 
-		if ! [ -f "$MAIN_BIN" ]
-		then
-			MAKE_LINKS=0
-		fi
-
-		if [ -f "$MAIN_BIN" ]
+		if [ $MAKE_LINKS -eq 1 ]
 		then
 
-			DESTINATION=$(readlink "$MAIN_BIN")
-			if ! [ "$DESTINATION" == "$URUNTIME" ]
+			if ! [ -f "$MAIN_BIN" ]
 			then
 				MAKE_LINKS=0
 			fi
 
+			if [ -f "$MAIN_BIN" ]
+			then
+
+				DESTINATION=$(readlink "$MAIN_BIN")
+				if ! [ "$DESTINATION" == "$URUNTIME" ]
+				then
+					MAKE_LINKS=0
+				fi
+
+			fi
+
+		fi
+
+		if [ $MAKE_LINKS -eq 0 ]
+		then
+			sed -i 's:Exec='"$MAIN_BIN_NAME"':Exec=\"'"$URUNTIME"'\":' "$DESKTOP_OK"
 		fi
 
 	fi
 
-	MAIN_BIN_NAME="$(basename "$MAIN_BIN")"
-
-	if [ $MAKE_LINKS -eq 0 ]
-	then
-		sed -i 's:Exec='"$MAIN_BIN_NAME"':Exec=\"'"$URUNTIME"'\":' "$DESKTOP_OK"
-	fi
 fi
 
 # Config
 if [ $COPY_CONFIG -eq 1 ]
 then
-	mkdir -p "$CONFIG_DIR"
-	cp -va "$APPDIR"/"$CONFIG_FILE" "$CONFIG_DIR"/"$CONFIG_FILE"
+
+	OK=0
+	if [ -f "$CONFIG_DIR" ] || [ -d "$CONFIG_DIR" ]
+	then
+
+		ls -l "$CONFIG_DIR"
+
+		if [ $OVERWRITE -eq 1 ]
+		then
+			OK=1
+		fi
+
+	else
+		OK=1
+	fi
+
+	if [ $OK -eq 1 ]
+	then
+		if [ $OVERWRITE -eq 1 ]
+		then
+			rm -vrf "$CONFIG_DIR"
+		fi
+		mkdir -vp "$CONFIG_DIR"
+		cp -va "$APPDIR"/_config/* "$CONFIG_DIR"/*
+	fi
+
 fi
 
 echo "
@@ -204,7 +254,7 @@ All done!"
 
 if [ $MAKE_LINKS -eq 1 ]
 then
-	echo "[!] The following symlinks will now run the appimage:"
+	echo "$MSG_NOT The following symlinks will now run the appimage:"
 	for BIN_LINK in "${LBINARIES[@]}"
 	do
 		echo "→ $BIN_LINK"
@@ -213,11 +263,12 @@ fi
 
 if [ $MAKE_DESKTOP -eq 1 ]
 then
-	echo "[!] Created/updated the application file: $DESKTOP"
+	echo "$MSG_NOT Created/updated the application file: $DESKTOP"
 	cat /usr/share/applications/"$DESKTOP"|grep "^Exec="
 fi
 
 if [ $COPY_CONFIG -eq 1 ]
 then
-	echo "[!] Copied the config"
+	echo "$MSG_NOT Copied the config"
+	find "$CONFIG_DIR"
 fi

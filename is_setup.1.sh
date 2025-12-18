@@ -7,7 +7,6 @@ set -eu
 
 MAIN_BIN="/usr/bin/snes9x-gtk"
 
-CONFIG_FILE="snes9x.conf"
 CONFIG_DIR="$HOME""/.config/snes9x"
 
 DESKTOP="snes9x-gtk.desktop"
