@@ -98,13 +98,13 @@ do
 
 	if [ $DET -eq 1 ]
 	then
-		echo "Detected flag: $FLAG"
+		echo "$MSG_NOT Detected flag: $FLAG"
 	fi
 done
 
 echo "
-AppImage path: $(realpath -e "$URUNTIME")
-Mounted path: $(realpath -e "$APPDIR")
+$MSG_NOT AppImage path: $(realpath -e "$URUNTIME")
+$MSG_NOT Mounted path: $(realpath -e "$APPDIR")
 "
 
 if ! [ $INSTALL -eq 1 ]
@@ -125,13 +125,17 @@ then
 
 		if [ -f "$BIN_LINK" ] || [ -d "$BIN_LINK" ]
 		then
+
 			ls -l "$BIN_LINK"
 			if [ $OVERWRITE -eq 0 ]
 			then
 				MAKE_LINKS=0
+				echo "$MSG_ERR Path already exists. $MSG_USE_FORCE"
 				break
 			fi
+
 		fi
+
 		ln -vsf "$URUNTIME" "$BIN_LINK"
 
 	done
@@ -153,6 +157,8 @@ then
 		if [ $OVERWRITE -eq 1 ]
 		then
 			OK=1
+		else
+			echo "$MSG_ERR Failed to copy icon. $MSG_USE_FORCE"
 		fi
 	else
 		OK=1
@@ -173,6 +179,8 @@ then
 		if [ $OVERWRITE -eq 1 ]
 		then
 			OK=1
+		else
+			echo "$MSG_ERR Failed to copy DESKTOP file. $MSG_USE_FORCE"
 		fi
 	else
 		OK=1
@@ -231,6 +239,8 @@ then
 		if [ $OVERWRITE -eq 1 ]
 		then
 			OK=1
+		else
+			echo "$MSG_ERR Failed to copy config. $MSG_USE_FORCE"
 		fi
 
 	else
