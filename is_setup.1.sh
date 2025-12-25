@@ -21,6 +21,5 @@ function additional_config_tasks() {
 	mkdir -vp "$CONFIG_DIR"/cheats
 	mkdir -vp "$CONFIG_DIR"/saves
 	mkdir -vp "$CONFIG_DIR"/savestates
-	sed -i "s:HOME_DIRECTORY:$HOME:" "$CONFIG_DIR"/vbam.conf
-	sed -i "s:HOME_DIRECTORY:$HOME:" "$CONFIG_DIR"/vbam.ini
+	sed -i "s:HOME_DIRECTORY:$HOME:" "$CONFIG_DIR"/snes9x.conf
 }
